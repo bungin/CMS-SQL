@@ -1,6 +1,7 @@
-import { pool } from './connections.ts';
+import { pool } from './connections.js';
 import inquirer from 'inquirer';
-import { Employee, Department, Role } from './types.ts';
+import type { Employee, Department, Role } from './types.js';
+import { QueryResult } from 'pg';
 
 
 
@@ -11,9 +12,10 @@ export const viewAllEmployees = async () => {
 }
 
 export const addEmployee = async () => {
-    const roles = await pool.query(`SELECT * FROM roles`);
-    const inputData = await 
-    inquirer
+    const rolesResult = await pool.query(`SELECT * FROM roles`);
+    const roles = rolesResult.rows;
+    
+    const inputData = await inquirer
         .prompt([
             {   
                 type: 'input',
@@ -29,23 +31,23 @@ export const addEmployee = async () => {
                 type: 'list',
                 name: 'role_id',
                 message: 'What is the Employees role?',
-                choices: roles.map((role) => ({name: role.title, value: role.id}))
+                choices: roles.map((role: Role) => ({name: role.title, value: role.id}))
             },
 
 ])
 };
 export const updateEmployeeRole = async () => {
-    const employees = await pool.query(`SELECT * FROM employees`);
+    const employeesResult = await pool.query(`SELECT * FROM employees`);
     const roles = await pool.query(`SELECT * FROM roles`);
-    const inputData = await 
-    inquirer
+    const employees = employeesResult.rows; 
+    const inputData = await inquirer
         .prompt([
             {
                 type: 'list',
                 name: 'employee_id',
                 message: 'Select the employee to update',
-                choices: employees.map((employee) => (
-                    {name: `${employee.first_name} ${employee.last_name}`, value: employee.id}))
+                choices: employees.map((employee: Employee) => (
+                    {name: `${employee.first_name}' '${employee.last_name}`, value: employee.id}))
             }
             ])
         };

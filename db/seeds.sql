@@ -1,4 +1,4 @@
-INSERT INTO department (dep_id, name)
+INSERT INTO department (dep_id, dep_name)
 VALUES
   (1, 'Engineering'),
   (2, 'Finance'),
@@ -9,9 +9,9 @@ VALUES
   (7, 'Customer Service'),
   (8, 'Research and Development'),
   (9, 'Quality Assurance'),
-  (10, 'Information Technology');
+  (10, 'Information Technology')
 
-INSERT INTO role (role_id, title, salary, department_id)
+INSERT INTO roles (role_id, title, salary, department_id)
 VALUES
   (1, 'Software Engineer', 100000, 1),
   (11, 'Lead Software Engineer', 120000, 1),
@@ -31,5 +31,5 @@ VALUES
   (18, 'R&D Pleb', 80000, 8),
   (9, 'QA Manager', 120000, 9),
   (19, 'QA Pleb', 80000, 9),
-  (10, 'IT Manager', 150000, 10);
-  (20, 'IT Plebian', 80000, 10);
+  (10, 'IT Manager', 150000, 10),
+  (20, 'IT Plebian', 80000, 10)

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/pg": "^8.11.8",
     "typescript": "^5.4.5"
   },
   "dependencies": {

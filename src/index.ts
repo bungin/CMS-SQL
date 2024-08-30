@@ -1,7 +1,7 @@
 import { QueryResult } from 'pg';
 import { pool, connectToDb } from './connections.js';
 import inquirer from 'inquirer';
-import { viewAllEmployees, addEmployee } from './funcs.ts';
+import { viewAllEmployees, addEmployee } from './funcs.js';
 
 await connectToDb();
 
@@ -53,5 +53,5 @@ switch (data.selection) {
 }
 };
 
-
+startCli();
 
