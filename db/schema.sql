@@ -16,11 +16,14 @@ CREATE TABLE roles (
   department_id INTEGER NOT NULL,
   FOREIGN KEY (department_id) REFERENCES department (dep_id)
 );
--- need to set references
+
 CREATE TABLE employee ( 
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
-    manager_id INTEGER NOT NULL
+    manager_id INTEGER NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES roles (role_id),
+    FOREIGN KEY (manager_id) REFERENCES employee (id)
 );
+-- manager id is a self reference to employee id????

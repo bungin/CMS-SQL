@@ -7,7 +7,9 @@ import { QueryResult } from 'pg';
 
 export const viewAllEmployees = async () => {
     const query = `SELECT * FROM employees`;
+    console.log('Employee check');
     const res = await pool.query(query);
+    console.log('Employee check 2');
     console.table(res.rows);
 }
 

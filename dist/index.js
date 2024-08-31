@@ -1,6 +1,7 @@
 import { connectToDb } from './connections.js';
 import inquirer from 'inquirer';
 import { viewAllEmployees, addEmployee } from './funcs.js';
+console.log('Welcome to the Employee Tracker!');
 await connectToDb();
 const startCli = async () => {
     const data = await inquirer
@@ -24,8 +25,7 @@ const startCli = async () => {
     switch (data.selection) {
         case 'View all Employees':
             {
-                viewAllEmployees();
-                startCli();
+                viewAllEmployees(), startCli();
             }
             break;
         case 'Add Employee':
