@@ -6,7 +6,7 @@ import { viewAllEmployees, addEmployee } from './funcs.js';
 console.log('Welcome to the Employee Tracker!');
 
 await connectToDb();
-
+console.log('welcome 2');
 const startCli = async () => {
     const data = await
     inquirer

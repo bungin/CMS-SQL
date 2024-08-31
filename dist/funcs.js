@@ -2,9 +2,10 @@ import { pool } from './connections.js';
 import inquirer from 'inquirer';
 export const viewAllEmployees = async () => {
     const query = `SELECT * FROM employees`;
-    console.log('Employee check');
+    console.log('Employee check'); // crashes on 11, no error
     const res = await pool.query(query);
-    console.log('Employee check 2');
+    console.log('res', res);
+    console.log('Employee check 2'); // This is not being printed
     console.table(res.rows);
 };
 export const addEmployee = async () => {
