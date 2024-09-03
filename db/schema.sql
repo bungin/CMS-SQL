@@ -22,7 +22,7 @@ CREATE TABLE employee (
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
-    manager_id INTEGER,
+    manager_id INTEGER NULL, --this doesnt seem to allow null/null vals
     FOREIGN KEY (role_id) REFERENCES roles (role_id),
     FOREIGN KEY (manager_id) REFERENCES employee (id)
 );

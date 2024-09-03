@@ -1,15 +1,7 @@
 // create emps, department and role interfaces.
-export interface Employee {
-    id:number;
-    first_name: string;
-    last_name: string;
-    role_id: number;
-    manager_id: number;
-}
-
 export interface Department {
-    id: number;
-    name: string;
+    dep_id: number;
+    dep_name: string;
 }
 
 export interface Role {
@@ -17,4 +9,12 @@ export interface Role {
     title: string;
     salary: number;
     department_id: number;
+}
+
+export interface Employee {
+    id:number;
+    first_name: string;
+    last_name: string;
+    role_id: number;
+    manager_id: number;
 }
