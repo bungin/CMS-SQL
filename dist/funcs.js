@@ -31,11 +31,12 @@ export const addEmployee = async () => {
         {
             type: 'input',
             name: 'manager_id',
-            message: "Enter the employee's manager's ID"
+            message: "Enter the employee's manager's ID",
+            default: null
         }
     ]);
     const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
-    const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id]);
+    const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id ? inputData.manager_id : null]);
     console.log('Employee added!'); // i dont entirely understand how the data is being written to the db despite the lack of a return statement
     startCli(); // is it the break?
 };
@@ -65,7 +66,8 @@ export const updateEmployeeRole = async () => {
         }
     ]);
     const query = 'UPDATE employee SET role_id = $1, manager_id = $2 WHERE id = $3';
-    const res = await pool.query(query, [inputData.role_id, inputData.manager_id, inputData.employee_id]);
+    console.log(inputData);
+    const res = await pool.query(query, [inputData.role_id, inputData.manager_id ? inputData.manager_id : null, inputData.employee_id]);
     startCli();
 };
 export const viewAllRoles = async () => {
