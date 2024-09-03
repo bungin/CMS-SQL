@@ -13,7 +13,7 @@ export interface Department {
 }
 
 export interface Role {
-    id: number;
+    role_id: number;
     title: string;
     salary: number;
     department_id: number;
