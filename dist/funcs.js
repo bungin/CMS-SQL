@@ -35,10 +35,15 @@ export const addEmployee = async () => {
             default: null
         }
     ]);
-    const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
-    const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id ? inputData.manager_id : null]);
-    console.log('Employee added!'); // i dont entirely understand how the data is being written to the db despite the lack of a return statement
-    startCli(); // is it the break?
+    try {
+        const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
+        const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id ? inputData.manager_id : null]);
+        console.log('Employee added!');
+        startCli();
+    }
+    catch (error) {
+        console.log(error);
+    }
 };
 export const updateEmployeeRole = async () => {
     const employeeResult = await pool.query('SELECT * FROM employee');
@@ -121,5 +126,22 @@ export const addDepartment = async () => {
     const query = 'INSERT INTO department (dep_name) VALUES ($1)';
     const res = await pool.query(query, [inputData.dep_name]);
     console.log('Department added!');
+    startCli();
+};
+export const removeEmployee = async () => {
+    const employeeResult = await pool.query('SELECT * FROM employee');
+    const employees = employeeResult.rows;
+    const inputData = await inquirer
+        .prompt([
+        {
+            type: 'list',
+            name: 'employee_id',
+            message: 'Select the employee to remove',
+            choices: employees.map((employee) => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+        }
+    ]);
+    const query = 'DELETE FROM employee WHERE id = $1';
+    const res = await pool.query(query, [inputData.employee_id]);
+    console.log('Employee removed!');
     startCli();
 };

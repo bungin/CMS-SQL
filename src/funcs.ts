@@ -16,15 +16,15 @@ export const viewAllEmployees = async () => {
 export const addEmployee = async () => {
     const rolesResult = await pool.query('SELECT * FROM roles');
     const roles = rolesResult.rows;
-    
+
     const inputData = await inquirer
         .prompt([
-            {   
+            {
                 type: 'input',
                 name: 'first_name',
                 message: "Enter the employee's first name"
             },
-            {   
+            {
                 type: 'input',
                 name: 'last_name',
                 message: "Enter the employee's last name"
@@ -41,11 +41,15 @@ export const addEmployee = async () => {
                 message: "Enter the employee's manager's ID",
                 default: null
             }
-])
-    const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
-    const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id ? inputData.manager_id : null]);
-    console.log('Employee added!');
-    startCli();                     
+        ])
+    try { 
+        const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
+        const res = await pool.query(query, [inputData.first_name, inputData.last_name, inputData.role_id, inputData.manager_id ? inputData.manager_id : null]);
+        console.log('Employee added!');
+        startCli();
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export const updateEmployeeRole = async () => {
@@ -75,12 +79,12 @@ export const updateEmployeeRole = async () => {
                 message: 'Enter the manager ID'
             }
         ])
-        const query = 'UPDATE employee SET role_id = $1, manager_id = $2 WHERE id = $3';
-        console.log(inputData)
-        const res = await pool.query(query, [inputData.role_id, inputData.manager_id ? inputData.manager_id : null, inputData.employee_id]);
+    const query = 'UPDATE employee SET role_id = $1, manager_id = $2 WHERE id = $3';
+    console.log(inputData)
+    const res = await pool.query(query, [inputData.role_id, inputData.manager_id ? inputData.manager_id : null, inputData.employee_id]);
     startCli();
 };
-               
+
 export const viewAllRoles = async () => {
     const query = 'SELECT * FROM roles';
     const res = await pool.query(query);
@@ -111,30 +115,49 @@ export const addRole = async () => {
                 choices: department.map((department: Department) => ({ name: department.dep_name, value: department.dep_id }))
             }
         ])
-    const query = 'INSERT INTO roles (title, salary, department_id) VALUES ($1, $2, $3)'; 
+    const query = 'INSERT INTO roles (title, salary, department_id) VALUES ($1, $2, $3)';
     const res = await pool.query(query, [inputData.title, inputData.salary, inputData.department_id]);
     console.log('Role added!');
     startCli();
-    };
+};
 
-    export const viewAllDepartments = async () => {
-        const query = 'SELECT * FROM department';
-        const res = await pool.query(query);
-        console.table(res.rows);
-        startCli();
-    };
+export const viewAllDepartments = async () => {
+    const query = 'SELECT * FROM department';
+    const res = await pool.query(query);
+    console.table(res.rows);
+    startCli();
+};
 
-    export const addDepartment = async () => {
-        const inputData = await inquirer
-            .prompt([
-                {
-                    type: 'input',
-                    name: 'dep_name',
-                    message: 'Enter the name of the new department'
-                }
-            ])
-        const query = 'INSERT INTO department (dep_name) VALUES ($1)';
-        const res = await pool.query(query, [inputData.dep_name]);
-        console.log('Department added!');
-        startCli();
-    };
+export const addDepartment = async () => {
+    const inputData = await inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'dep_name',
+                message: 'Enter the name of the new department'
+            }
+        ])
+    const query = 'INSERT INTO department (dep_name) VALUES ($1)';
+    const res = await pool.query(query, [inputData.dep_name]);
+    console.log('Department added!');
+    startCli();
+};
+
+export const removeEmployee = async () => {
+    const employeeResult = await pool.query('SELECT * FROM employee');
+    const employees = employeeResult.rows;
+
+    const inputData = await inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'employee_id',
+                message: 'Select the employee to remove',
+                choices: employees.map((employee: Employee) => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+            }
+        ])
+    const query = 'DELETE FROM employee WHERE id = $1';
+    const res = await pool.query(query, [inputData.employee_id]);
+    console.log('Employee removed!');
+    startCli();
+};

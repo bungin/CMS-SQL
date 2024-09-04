@@ -1,6 +1,6 @@
 import { connectToDb } from './connections.js';
 import inquirer from 'inquirer';
-import { viewAllEmployees, addEmployee, updateEmployeeRole, viewAllRoles, addRole, viewAllDepartments, addDepartment } from './funcs.js';
+import { viewAllEmployees, addEmployee, updateEmployeeRole, viewAllRoles, addRole, viewAllDepartments, addDepartment, removeEmployee } from './funcs.js';
 console.log('Welcome to the Employee Tracker!');
 await connectToDb();
 console.log('welcome 2');
@@ -14,6 +14,7 @@ export const startCli = async () => {
             choices: [
                 'View all Employees',
                 'Add Employee',
+                'Remove Employee',
                 'Update Employee Role',
                 'View all Roles',
                 'Add Role',
@@ -34,6 +35,10 @@ export const startCli = async () => {
                 addEmployee();
             }
             break;
+        case 'Remove Employee':
+            {
+                removeEmployee();
+            }
         case 'Update Employee Role':
             {
                 updateEmployeeRole();

@@ -1,7 +1,7 @@
 import { QueryResult } from 'pg';
 import { pool, connectToDb } from './connections.js';
 import inquirer from 'inquirer';
-import { viewAllEmployees, addEmployee, updateEmployeeRole, viewAllRoles, addRole, viewAllDepartments, addDepartment } from './funcs.js';
+import { viewAllEmployees, addEmployee, updateEmployeeRole, viewAllRoles, addRole, viewAllDepartments, addDepartment, removeEmployee } from './funcs.js';
 
 console.log('Welcome to the Employee Tracker!');
 
@@ -18,6 +18,7 @@ export const startCli = async () => {
                 choices: [
                     'View all Employees',
                     'Add Employee',
+                    'Remove Employee',
                     'Update Employee Role',
                     'View all Roles',
                     'Add Role',
@@ -35,6 +36,8 @@ switch (data.selection) {
     case 'Add Employee':
         {addEmployee()}
         break;
+    case 'Remove Employee':
+        {removeEmployee();}
     case 'Update Employee Role':
         {updateEmployeeRole();}
         break;
