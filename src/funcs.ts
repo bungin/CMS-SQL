@@ -80,7 +80,6 @@ export const updateEmployeeRole = async () => {
             }
         ])
     const query = 'UPDATE employee SET role_id = $1, manager_id = $2 WHERE id = $3';
-    console.log(inputData)
     const res = await pool.query(query, [inputData.role_id, inputData.manager_id ? inputData.manager_id : null, inputData.employee_id]);
     startCli();
 };
@@ -160,4 +159,73 @@ export const removeEmployee = async () => {
     const res = await pool.query(query, [inputData.employee_id]);
     console.log('Employee removed!');
     startCli();
+};
+
+export const removeRole = async () => {
+    const roleResult = await pool.query('SELECT * FROM roles');
+    const roles = roleResult.rows;
+
+    const inputData = await inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'role_id',
+                message: 'Select the role to remove',
+                choices: roles.map((role: Role) => ({ name: role.title, value: role.role_id }))
+            }
+        ])
+    try {
+    const query = 'DELETE FROM roles WHERE role_id = $1';
+    const res = await pool.query(query, [inputData.role_id]);
+    console.log('Role removed!');
+    startCli();
+    } catch (error){
+        console.log(error);
+    }
+};
+
+export const removeDepartment = async () => {
+    const departmentResult = await pool.query('SELECT * FROM department');
+    const departments = departmentResult.rows;
+
+    const inputData = await inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'dep_id',
+                message: 'Select the department to remove',
+                choices: departments.map((department: Department) => ({ name: department.dep_name, value: department.dep_id }))
+            }
+        ])
+    try {
+        const query = 'DELETE FROM department WHERE dep_id = $1';
+        const res = await pool.query(query, [inputData.dep_id]);
+        console.log('Department removed! Make sure to update your Employees information');
+        startCli();
+    } catch (error){
+        console.log(error);
+    }
+};
+
+export const viewDepartmentSalary = async () => {
+    const departmentResult = await pool.query('SELECT * FROM department');
+    const department = departmentResult.rows;
+
+    const inputData = await inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'dep_id',
+                message: 'Select the department to view total salary',
+                choices: department.map((department: Department) => ({ name: department.dep_name, value: department.dep_id }))
+            }
+        ])
+    try {
+        const query = 'SELECT SUM(salary) FROM roles WHERE department_id = $1';
+        const res = await pool.query(query, [inputData.dep_id]);
+        console.log(`The total salary for this department is: $${res.rows[0].sum}`);
+        startCli();
+    } catch (error) {
+        console.log(error);
+    }
 };

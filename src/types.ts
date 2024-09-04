@@ -1,4 +1,3 @@
-// create emps, department and role interfaces.
 export interface Department {
     dep_id: number;
     dep_name: string;
