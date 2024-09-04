@@ -15,7 +15,7 @@ A basic management tool
 - [License](#license)
 
 ## Installation
-install npm pgks: "npm i"
+install npm pgks: "npm i" || Make sure you create a .env file: see .env.example
 
 ## Usage
 Manage your employees and managers; departments, roles and salaries.
